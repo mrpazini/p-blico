@@ -1,0 +1,16 @@
+        01  AX-AUXILIARES.
+            05  AX-MENSAGEM             PIC  X(065)     VALUE   SPACES.
+            05  AX-CONF                 PIC  X(001)     VALUE   SPACES.
+
+            05  AX-STATUS               PIC  X(002)     VALUE   SPACES.
+            05  RX-STATUS               REDEFINES       AX-STATUS.
+                10  AX-STATUS-1         PIC  X(001).
+                10  AX-STSTUS-2         PIC  X(001).
+                10  RX-STATUS-2         REDEFINES       AX-STATUS-2 
+                                        PIC  9(002)     COMP-X.
+
+            05  LB-CADCLI               PIC  X(030)     VALUE   SPACES.
+            05  LB-CADVND               PIC  X(030)     VALUE   SPACES.
+            05  LB-ARQCSV               PIC  X(030)     VALUE   SPACES.
+            05  LB-TXTCLI               PIC  X(050)     VALUE   SPACES.
+            05  LB-TXTVND               PIC  X(050)     VALUE   SPACES.

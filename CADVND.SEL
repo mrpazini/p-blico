@@ -1,0 +1,6 @@
+            SELECT      CADVND      ASSIGN  TO  DISK    LB-CADVND
+                        ORGANIZATION        IS  INDEXED
+                        ACCESS MODE         IS  DYNAMIC
+                        RECORD KEY          IS ...
+                        LOCK MODE           IS  MANUAL
+                        FILE STATUS         IS  AX-STATUS.

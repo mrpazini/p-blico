@@ -1,0 +1,8 @@
+        FD  TXTCLI.
+
+        01  TCLI-REGISTRO.
+            05  TCLI-CODIGO             PIC  9(007).
+            05  TCLI-CNPJ               PIC  9(014).
+            05  TCLI-RAZAO              PIC  X(040).
+            05  TCLI-LATITUDE           PIC S9(003)V9(008).
+            05  TCLI-LONGITUDE          PIC S9(003)V9(008).

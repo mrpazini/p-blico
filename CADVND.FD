@@ -1,0 +1,10 @@
+        FD  CADVND.
+
+        01  VND-REGISTRO.
+            05  VND-CHAVE.
+                10  VND-CODIGO          PIC  9(003).
+            05  VND-DADOS.
+                10  VND-CPF             PIC  9(011).
+                10  VND-NOME            PIC  X(040).
+                10  VND-LATITUDE        PIC S9(003)V9(008).
+                10  VND-LONGITUDE       PIC S9(003)V9(008).

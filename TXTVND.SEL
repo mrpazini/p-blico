@@ -1,0 +1,4 @@
+            SELECT      TXTVND      ASSIGN  TO  DISK    LB-TXTVND
+                        ORGANIZATION        IS  LINE    SEQUENTIAL
+                        ACCESS MODE         IS  SEQUENTIAL
+                        FILE STATUS         IS  AX-STATUS.

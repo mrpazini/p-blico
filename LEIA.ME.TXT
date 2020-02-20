@@ -1,0 +1,31 @@
++----------------------+
+|  >>  IMPORTANTE  <<  |
++----------------------+
+
+* Nenhum programa foi compilado!
+  ==============================
+  
+* Os programas deverão ser chamados a partir do programa menu principal (TSTMENU);
+
+=> Situação do Desenvolvimento
++-----------+-----------------------------------------------+-----------------------+
+| PROGRAMA  | DESCRICAO                                     | ESTADO                |
++-----------+-----------------------------------------------+-----------------------+
+| CALCCNPJ  | VALIDAÇÃO DE CNPJ                             | CONCLUIDO             |
++-----------+-----------------------------------------------+-----------------------+
+| CALCCPF   | VALIDAÇÃO DE CPF                              | CONCLUIDO             |
++-----------+-----------------------------------------------+-----------------------+
+| TSTMENU   | MENU PRINCIPAL                                | CONCLUIDO             |
++-----------+-----------------------------------------------+-----------------------+
+| TSTCDCLI  | MANUTENÇAO DO CADASTRO DE CLIENTES            | CONCLUIDO             |
++-----------+-----------------------------------------------+-----------------------+
+| TSTCDVND  | MANUTENÇÃO DO CADASTRO DE VENDEDORES          | CONCLUIDO             |
++-----------+-----------------------------------------------+-----------------------+
+| TSTRLCLI  | RELAÇÃO DO CADASTRO DE CLIENTES               | EM DESENVOLVIMENTO    |    
++-----------+-----------------------------------------------+-----------------------+
+| TSTRLVND  | RELAÇÃO DO CADASTRO DE VENDEDORES             | NA FILA               |
++-----------+-----------------------------------------------+-----------------------+
+| TSTDISTR  | ATRIBUIÇÃO DE VENDEDORES POR GEODESIA         | NA FILA               |
+|           |                                               | AGUARDANDO REGRA DE   |
+|           |                                               | NEGOCIO               |
++-----------+-----------------------------------------------+-----------------------+
