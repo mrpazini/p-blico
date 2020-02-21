@@ -1,13 +1,11 @@
       *>----------------------------------------------------------------
-      *>ESTE PROGRAMA NAO PASSOU POR NENHUMA COMPILACAO
-      *>----------------------------------------------------------------
        IDENTIFICATION DIVISION.
       *>----------------------------------------------------------------
-        PROGRAM-ID.    TSTCDCLI.
-        AUTHOR.        MILTON ROGERIO PAZINI.
+       PROGRAM-ID.     TSTCDVND.
+       AUTHOR.         MILTON ROGERIO PAZINI.
       *>----------------------------------------------------------------
       *>SISTEMA        : TESTE PROGRAMACAO
-      *>PROGRAMA       : CADASTRO DE CLIENTE
+      *>PROGRAMA       : CADASTRO DE VENDEDOR
       *>----------------------------------------------------------------
 
       *>----------------------------------------------------------------
@@ -23,21 +21,21 @@
       *>----------------------------------------------------------------
        FILE-CONTROL.
       *>----------------------------------------------------------------
-       COPY    "CADCLI.SEL".
-       COPY    "CADCLI.SEL"    REPLACING   CADCLI      BY  eCADCLI
-                                           LB-CADVND   BY  LB-eCADCLI
-                               LEADING     ==CLI-==    BY  ==eCLI-==.
-       COPY    "TXTCLI.SEL".
+       COPY    "CADVND.SEL".
+       COPY    "CADVND.SEL"    REPLACING   CADVND      BY  eCADVND
+                                           LB-CADVND   BY  LB-eCADVND
+                               LEADING     ==VND-==    BY  ==eVND-==.
+       COPY    "TXTVND.SEL".
 
       *>----------------------------------------------------------------
        DATA DIVISION.
       *>----------------------------------------------------------------
        FILE SECTION.
       *>----------------------------------------------------------------
-       COPY    "CADCLI.FD".
-       COPY    "CADCLI.FD"    REPLACING   CADCLI      BY  eCADCLI
-                               LEADING     ==CLI-==    BY  ==eCLI-==.
-       COPY    "TXTCLI.FD".
+       COPY    "CADVND.FD".
+       COPY    "CADVND.FD"     REPLACING   CADVND      BY  eCADVND
+                               LEADING     ==VND-==    BY  ==eVND-==.
+       COPY    "TXTVND.FD".
 
       *>----------------------------------------------------------------
        WORKING-STORAGE SECTION.
@@ -47,8 +45,8 @@
            05  AX-OPCAO                PIC  X(001)     VALUE   SPACES.
 
        01  LK-DADOS.
-           05  LK-CNPJ.
-               10  LK-NUMERO           PIC  9(012).
+           05  LK-CPF.
+               10  LK-NUMERO           PIC  9(009).
                10  LK-DIGITO           PIC  9(002).
            05  LK-RET                  PIC  9(001).
                88  LK-OK                               VALUE   1.
@@ -78,29 +76,29 @@
 
        01  T-DISPLAY.
            05  LINE 01 COLUMN 01   BLANK   SCREEN.
-           05  LINE 06 COLUMN 10   VALUE   "Cadastros De Clientes".
+           05  LINE 06 COLUMN 10   VALUE   "Cadastros De Vendedores".
            05  LINE 08 COLUMN 10   VALUE   "Codigo.......:".
-           05  LINE 10 COLUMN 10   VALUE   "CNPJ.........:".
-           05  LINE 12 COLUMN 10   VALUE   "Razao Social.:".
+           05  LINE 10 COLUMN 10   VALUE   "CPF..........:".
+           05  LINE 12 COLUMN 10   VALUE   "Nome.........:".
            05  LINE 14 COLUMN 10   VALUE   "Latitude.....:".
            05  LINE 14 COLUMN 40   VALUE   "Longitude....:".
 
        01  T-ACCEPT.
            05  T-CODIGO.
-               10  LINE 08 COLUMN 25 PIC ZZZZZ9 USING CLI-CODIGO.
-           05  T-CNPJ.
-               10  LINE 10 COLUMN 25 PIC 99.999.999/9999.99 USING CLI-CNPJ.
-           05  T-RAZAO.
-               10  LINE 12 COLUMN 25 PIC X(040) USING CLI-RAZAO.
+               10  LINE 08 COLUMN 25 PIC ZZZZZ9 USING VND-CODIGO.
+           05  T-CPF.
+               10  LINE 10 COLUMN 25 PIC 999.999.999.99 USING VND-CPF.
+           05  T-NOME.
+               10  LINE 12 COLUMN 25 PIC X(040) USING VND-NOME.
            05  T-LATI.
-               10  LINE 14 COLUMN 25 PIC --9,99999999 USING CLI-LATITUDE.
+               10  LINE 14 COLUMN 25 PIC --9,99999999 USING VND-LATITUDE.
            05  T-LONG.
-               10  LINE 14 COLUMN 55 PIC --9,99999999 USING CLI-LONGITUDE.
+               10  LINE 14 COLUMN 55 PIC --9,99999999 USING VND-LONGITUDE.
 
        01  T-ARQUIVO.
            05  LINE 01 COLUMN 01   BLANK SCREEN.
            05  LINE 10 COLUMN 20   VALUE   "Arquivo a Importar".
-           05  LINE 11 COLUMN 20   PIC X(050) USING LB-TXTCLI.
+           05  LINE 11 COLUMN 20   PIC X(050) USING LB-TXTVND.
 
        01  T-MENS.
            05  LINE 24 COLUMN 01   VALUE "Mensagem:".
@@ -160,7 +158,7 @@
       *>----------------------------------------------------------------
        R-RECEIVER-001.
       *>----------------------------------------------------------------
-           INITIALIZE  CLI-REGISTRO
+           INITIALIZE  VND-REGISTRO
            MOVE        "[ESC] Para Sair"       TO  AX-MENSAGEM
            DISPLAY     T-ACCEPT    T-MENS
            ACCEPT      T-CODIGO ON ESCAPE
@@ -169,7 +167,7 @@
            END-ACCEPT
 
            IF          AX-OPCAO EQUAL "A"
-                       PERFORM     R-IO-CADCLI
+                       PERFORM     R-IO-CADVND
                        IF          AX-STATUS NOT EQUAL "00" OR "05"
                                    MOVE        "Erro ao Abri o Arquivo de Clientes![ENTER]"  TO AX-MENSAGEM
                                    DISPLAY     T-MENS
@@ -177,7 +175,7 @@
                                    EXIT
                        END-IF
 
-                       READ        CADCLI
+                       READ        CADVND
                        IF          AX-STATUS NOT EQUAL "00"
                                    MOVE        "Registro não Encontrado! [ENTER]"  TO AX-MENSAGEM
                                    DISPLAY     T-MENS
@@ -197,54 +195,54 @@
       *>----------------------------------------------------------------
            MOVE        "[ESC] Para Sair"       TO  AX-MENSAGEM
            DISPLAY     T-MENS
-           ACCEPT      T-CNPJ ON ESCAPE
+           ACCEPT      T-CPF ON ESCAPE
                        SUBTRACT 1 FROM AX-CAMPO
                        EXIT
            END-ACCEPT
 
-           IF          CLI-CNPJ    EQUAL ZEROS
-                       MOVE        "CNPJ Obrigatorio! [ENTER]"     TO  AX-MENSAGEM
+           IF          VND-CPF     EQUAL ZEROS
+                       MOVE        "CPF Obrigatorio! [ENTER]"     TO  AX-MENSAGEM
                        DISPLAY     T-MENS
                        ACCEPT      T-MENS
                        EXIT
            END-IF
 
            INITIALIZE  LK-DADOS
-           MOVE        CLI-CNPJ                TO  LK-CNPJ
-           CALL        "CALCCNPJ"  USING   LK-DADOS
-           CANCEL      "CALCCNPJ"
+           MOVE        VND-CPF                 TO  LK-CPF
+           CALL        "CALCCPF"   USING   LK-DADOS
+           CANCEL      "CALCCPF"
 
            IF          NOT LK-OK
-                       MOVE        "CNPJ Informado invalido! [ENTER]"  TO  AX-MENSAGEM
+                       MOVE        "CPF Informado invalido! [ENTER]"  TO  AX-MENSAGEM
                        DISPLAY     T-MENS
                        ACCEPT      T-MENS
                        EXIT
            END-IF
 
-           OPEN        INPUT   ECADCLI
+           OPEN        INPUT   ECADVND
            IF          AX-STATUS NOT EQUAL "00"
-                       MOVE        "Erro ao Abrir eCADCLI! [ENTER]"    TO  AX-MENSAGEM
+                       MOVE        "Erro ao Abrir eCADVND! [ENTER]"    TO  AX-MENSAGEM
                        DISPLAY     T-MENS
                        ACCEPT      T-MENS
                        EXIT
            END-IF
 
-           MOVE        CLI-CNPJ                TO  ECLI-CNPJ
-           START       ECADCLI     KEY NOT LESS ECLI-CHAVE3
+           MOVE        VND-CPF                 TO  EVND-CPF
+           START       ECADVND     KEY NOT LESS EVND-CHAVE3
            IF          AX-STATUS   NOT EQUAL "00"
-                       CLOSE       ECADCLI
+                       CLOSE       ECADVND
            ELSE
-                       READ        ECADCLI NEXT
+                       READ        ECADVND NEXT
                        IF          AX-STATUS NOT EQUAL "00"
-                                   CLOSE       ECADCLI
+                                   CLOSE       ECADVND
                        ELSE
-                                   IF          ECLI-CNPJ NOT EQUAL CLI-CNPJ
-                                               CLOSE       ECADCLI
+                                   IF          EVND-CPF NOT EQUAL VND-CPF
+                                               CLOSE       ECADVND
                                    ELSE
                                                MOVE        "CNPJ Ja Cadastrado! [ENTER]"   TO  AX-MENSAGEM
                                                DISPLAY     T-MENS
                                                ACCEPT      T-MENS
-                                               CLOSE       ECADCLI
+                                               CLOSE       ECADVND
                                                EXIT
                                    END-IF
                        END-IF
@@ -259,13 +257,13 @@
       *>----------------------------------------------------------------
            MOVE        "[ESC] Para Sair"       TO  AX-MENSAGEM
            DISPLAY     T-MENS
-           ACCEPT      T-RAZAO ON ESCAPE
+           ACCEPT      T-NOME ON ESCAPE
                        SUBTRACT 1 FROM AX-CAMPO
                        EXIT
            END-ACCEPT
 
-           IF          CLI-RAZAO   EQUAL SPACES
-                       MOVE        "Razao Social Obrigatoria! [ENTER]" TO  AX-MENSAGEM
+           IF          VND-NOME    EQUAL SPACES
+                       MOVE        "Nome Obrigatorio! [ENTER]" TO  AX-MENSAGEM
                        DISPLAY     T-MENS
                        ACCEPT      T-MENS
                        EXIT
@@ -319,11 +317,11 @@
                        EXIT
            END-IF
 
-           PERFORM     R-IO-CADCLI
-           WRITE       CLI-REGISTRO INVALID KEY
-               REWRITE CLI-REGISTRO
+           PERFORM     R-IO-CADVND
+           WRITE       VND-REGISTRO INVALID KEY
+               REWRITE VND-REGISTRO
 
-           CLOSE       CADCLI
+           CLOSE       CADVND
 
            MOVE        1                       TO  AX-CAMPO
 
@@ -332,41 +330,41 @@
       *>----------------------------------------------------------------
        R-EXCLUI.
       *>----------------------------------------------------------------
-           PERFORM     R-IO-CADCLI
+           PERFORM     R-IO-CADVND
            IF          AX-STATUS NOT EQUAL "00" OR "05"
                        EXIT
            END-IF
 
            PERFORM     UNTIL   EXIT
-                       INITIALIZE  CLI-REGISTRO
+                       INITIALIZE  VND-REGISTRO
                        MOVE        "[ESC] para Sair"   TO  AX-MENSAGEM
                        DISPLAY     T-DISPLAY   T-ACCEPT    T-MENS
                        ACCEPT      T-CODIGO    ON ESCAPE
                                    EXIT        PERFORM
                        END-ACCEPT
 
-                       READ        CADCLI
+                       READ        CADVND
                        IF          AX-STATUS NOT EQUAL "00"
-                                   CLOSE       CADCLI
-                                   MOVE        "Cliente não encontrado! [ENTER]"   TO  AX-MENSAGEM
+                                   CLOSE       CADVND
+                                   MOVE        "Vendedor não encontrado! [ENTER]"   TO  AX-MENSAGEM
                                    DISPLAY     T-MENS
                                    ACCEPT      T-MENS
                                    EXIT        PERFORM     CYCLE
                        END-IF
 
                        DISPLAY     T-ACCEPT
-                       MOVE        "Confirma a Exclusao do Cliente? {S/N)"     TO  AX-MENSAGEM
+                       MOVE        "Confirma a Exclusao do Vendedor? {S/N)"     TO  AX-MENSAGEM
                        DISPLAY     T-MENS
                        ACCEPT      T-MENS
                        IF          AX-CONF NOT EQUAL "s" AND "S"
                                    EXIT        PERFORM     CYCLE
                        END-IF
 
-                       DELETE      CADCLI
+                       DELETE      CADVND
 
            END-PERFORM
 
-           CLOSE       CADCLI
+           CLOSE       CADVND
 
            EXIT.
 
@@ -374,41 +372,41 @@
        R-IMPORTA.
       *>----------------------------------------------------------------
            PERFORM     UNTIL   EXIT
-                       INITIALIZE  LB-TXTCLI
+                       INITIALIZE  LB-TXTVND
                        MOVE        "ESPACOS PARA SAIR" TO AX-MENSAGEM
                        DISPLAY     T-ARQUIVO   T-MENS
                        ACCEPT      T-ARQUIVO
 
-                       IF          LB-TXTCLI   EQUAL SPACES
+                       IF          LB-TXTVND   EQUAL SPACES
                                    EXIT        PERFORM
                        END-IF
 
-                       OPEN        INPUT       TXTCLI
+                       OPEN        INPUT       TXTVND
                        IF          AX-STATUS NOT EQUAL "35"
                                    MOVE        "Arquivo Texto não Localizado! [ENTER]"     TO  AX-MENSAGEM
                                    EXIT        PERFORM     CYCLE
                        END-IF
 
-                       PERFORM     R-IO-CADCLI
+                       PERFORM     R-IO-CADVND
                        IF          AX-STATUS NOT EQUAL "00" OR "05"
-                                   CLOSE       TXTCLI
+                                   CLOSE       TXTVND
                                    EXIT        PERFORM     CYCLE
                        END-IF
 
                        PERFORM     UNTIL   EXIT
-                                   READ        TXTCLI  NEXT    AT END
+                                   READ        TXTVND  NEXT    AT END
                                                MOVE        "Final da Importacao! [ENTER]"  TO  AX-MENSAGEM
                                                DISPLAY     T-MENS
                                                ACCEPT      T-MENS
-                                               CLOSE       TXTCLI      CADCLI
+                                               CLOSE       TXTVND      CADVND
                                                EXIT        PERFORM
                                    END-READ
 
-                                   MOVE        TCLI-CNPJ       TO  LK-CNPJ
-                                   CALL        "CALCCNPJ"      USING   LK-DADOS
-                                   CANCEL      "CALCCNPJ"
+                                   MOVE        TVND-CPF        TO  LK-CPF
+                                   CALL        "CALCCPF"      USING   LK-DADOS
+                                   CANCEL      "CALCCPF"
                                    IF          NOT LK-OK
-                                               STRING      "CNPJ "     TCLI-CNPJ(1:14)
+                                               STRING      "CPF "     TVND-CPF(1:11)
                                                            " Invalido! Nao sera importado. [ENTER]"
                                                    INTO    AX-MENSAGEM
                                                DISPLAY     T-MENS
@@ -416,9 +414,9 @@
                                                EXIT        PERFORM     CYCLE
                                    END-IF
 
-                                   MOVE        TCLI-REGISTRO           TO  CLI-REGISTRO
-                                   WRITE       CLI-REGISTRO    INVALID KEY
-                                               REWRITE     CLI-REGISTRO
+                                   MOVE        TVND-REGISTRO           TO  VND-REGISTRO
+                                   WRITE       VND-REGISTRO    INVALID KEY
+                                               REWRITE     VND-REGISTRO
 
                        END-PERFORM
            END-PERFORM.
@@ -426,16 +424,16 @@
            EXIT.
 
       *>----------------------------------------------------------------
-       R-IO-CADCLI.
+       R-IO-CADVND.
       *>----------------------------------------------------------------
-           OPEN        I-O         CADCLI
+           OPEN        I-O         CADVND
            EVALUATE    AX-STATUS
                WHEN    "39"
-                       MOVE        "Estrutura do Arquivo de Clientes Inválida! [ENTER]"    TO  AX-MENSAGEM
+                       MOVE        "Estrutura do Arquivo de Vendedores Inválida! [ENTER]"    TO  AX-MENSAGEM
                        DISPLAY     T-MENS
                        ACCEPT      T-MENS
                WHEN    "9A"
-                       MOVE        "Arquivo de Clientes Bloqueado em Outro Terminal! [ENTER]"  TO  AX-MENSAGEM
+                       MOVE        "Arquivo de Vendedores Bloqueado em Outro Terminal! [ENTER]"  TO  AX-MENSAGEM
                        DISPLAY     T-MENS
                        ACCEPT      T-MENS
            END-EVALUATE
