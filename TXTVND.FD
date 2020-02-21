@@ -1,8 +1,0 @@
-        FD  TXTVND.
-
-        01  TVND-REGISTRO.
-            05  TVND-CODIGO             PIC  9(003).
-            05  TVND-CPF                PIC  9(011).
-            05  TVND-NOME               PIC  X(040).
-            05  TVND-LATITUDE           PIC S9(003)V9(008).
-            05  TVND-LONGITUDE          PIC S9(003)V9(008).
