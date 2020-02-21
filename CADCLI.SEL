@@ -1,0 +1,11 @@
+           SELECT  CADCLI  ASSIGN          TO  LB-CADCLI
+                           ORGANIZATION    IS  INDEXED
+                           ACCESS  MODE    IS  DYNAMIC
+                           LOCK    MODE    IS  MANUAL
+                           RECORD  KEY     IS  CLI-CHAVE
+               ALTERNATE   RECORD  KEY     IS  CLI-CHAVE2 =
+                                               CLI-RAZAO
+                                               CLI-CODIGO
+               ALTERNATE   RECORD  KEY     IS  CLI-CHAVE3 =
+                                               CLI-CNPJ
+                           FILE    STATUS  IS  AX-STATUS.

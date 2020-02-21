@@ -1,0 +1,11 @@
+           SELECT  CADVND  ASSIGN          TO  LB-CADVND
+                           ORGANIZATION    IS  INDEXED
+                           ACCESS  MODE    IS  DYNAMIC
+                           LOCK    MODE    IS  MANUAL
+                           RECORD  KEY     IS  VND-CHAVE
+               ALTERNATE   RECORD  KEY     IS  VND-CHAVE2 =
+                                               VND-NOME
+                                               VND-CODIGO
+               ALTERNATE   RECORD  KEY     IS  VND-CHAVE3 =
+                                               VND-CPF
+                       FILE STATUS         IS  AX-STATUS.

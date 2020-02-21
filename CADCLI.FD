@@ -1,0 +1,11 @@
+       FD  CADCLI.
+
+       01  CLI-REGISTRO.
+           05  CLI-CHAVE.
+               10  CLI-CODIGO          PIC  9(007).
+           05  CLI-DADOS.
+               10  CLI-CNPJ            PIC  9(014).
+               10  CLI-RAZAO           PIC  X(040).
+               10  CLI-LATITUDE        PIC S9(003)V9(008).
+               10  CLI-LONGITUDE       PIC S9(003)V9(008).
+               10  CLI-VENDEDOR        PIC  9(003).
