@@ -1,4 +1,0 @@
-            SELECT      TXTCLI      ASSIGN  TO  DISK    LB-TXTCLI
-                        ORGANIZATION        IS  LINE    SEQUENTIAL
-                        ACCESS MODE         IS  SEQUENTIAL
-                        FILE STATUS         IS  AX-STATUS.
